@@ -19,7 +19,7 @@ void inputAttendance(struct Student *student);
 int main() {
   struct Student students[100];
   FILE *fptr;
-  int choice, num_students = 0;
+  int choice, num_students = 0,num_saved_stds=1;
 
   do {   
 printf("------------------------------------------------"); printf("\n*********************Menu***********************\n");
@@ -27,9 +27,10 @@ printf("------------------------------------------------"); printf("\n**********
     printf("1. Add Student\n");
     printf("2. Calculate Percentage\n");
     printf("3. Input Attendance\n");
-    printf("4. View Students\n");
-    printf("5. Save all info\n");
-    printf("6. Exit\n");
+    printf("4. View Recent Students\n");
+    printf("5. View Saved Students\n");
+    printf("6. Save Recent Info\n");
+    printf("7. Exit\n");
     printf("------------------------------------------------\n");
     printf("Enter your choice: ");
     scanf("%d", &choice);
@@ -92,7 +93,7 @@ calculatePERC(&students[student_index]);
       
     case 4:
       if (num_students > 0) {
-        printf("\nStudents:\n");
+        printf("\nRecently added Students:\n");
         for (int i = 0; i < num_students; i++) {
 printf("-----------------------\n");
 printf("Name: %s", students[i].name);
@@ -101,13 +102,30 @@ printf("Major: %s", students[i].major);
 printf("Percentage: %.2f%\n", students[i]. percentage);
 printf("Attendance: %d/30\n", students[i].attendance);
 printf("-----------------------\n");
-      
-        }
+printf("You should save it permanently!!\n");
+      }
       } else {
         printf("\n⚠No students to display\n");
       }
       break;
+      
     case 5:
+      if (num_saved_stds > 0) {
+        fptr = fopen("stdsData.txt","r");
+        char ch;
+        ch = fgetc(fptr);
+        
+        while(ch != EOF){
+          printf("%c",ch);
+          ch=fgetc(fptr);
+        }
+        fclose(fptr);
+      } else {
+        printf("\n⚠No students to display\n");
+            }
+      break;
+      
+    case 6:
       if (num_students > 0){
      fptr = fopen("stdsData.txt","a");
       for (int i = 0; i < num_students; i++) {
@@ -118,6 +136,7 @@ fprintf(fptr,"Major: %s", students[i].major);
 fprintf(fptr,"Percentage: %.2f%\n", students[i]. percentage);
 fprintf(fptr,"Attendance: %d/30\n", students[i].attendance);
 fprintf(fptr,"-----------------------\n");
+num_saved_stds++;
       }
     fclose(fptr);
     printf("\nData Successfully saved \n");
@@ -125,13 +144,13 @@ fprintf(fptr,"-----------------------\n");
         printf("\n⚠No students to save!!\n");
       }
       break;
-    case 6:
+    case 7:
       printf("\nExiting program\n");
       break;
     default:
       printf("\n⚠Invalid choice, please try again\n");
     }
-  } while (choice != 6);
+  } while (choice != 7);
   printf("\n");
   return 0;
 }
