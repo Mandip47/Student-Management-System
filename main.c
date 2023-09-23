@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//structure
 struct Student {
   char name[50];
   int age;
@@ -9,49 +10,18 @@ struct Student {
   int attendance;
 };
 
+// functions declaration
+void calculatePERC(struct Student *student);
 float percentage(float total,float fM);
+void inputAttendance(struct Student *student);
 
-void calculatePERC(struct Student *student) {
-
-  float phy,che,mat,nep,eng,comp,fM, percent;
-  
-  printf("\nEnter full marks : ");
-  scanf("%f",&fM);
-  printf("\nEnter physics marks : ");
-  scanf("%f",&phy);
-  printf("\nEnter chemistry marks : ");
-  scanf("%f",&che);
-  printf("\nEnter math marks : ");
-  scanf("%f",&mat);
-  printf("\nEnter nepali marks : ");
-  scanf("%f",&nep);
-  printf("\nEnter english marks : ");
-  scanf("%f",&eng);
-  printf("\nEnter computer marks : ");
-  scanf("%f",&comp);
-  float total = phy+che+mat+nep+eng+comp;
-  
-  percent = percentage(total,fM);
-  
-  student->percentage = percent;
-  
-}
-
-void inputAttendance(struct Student *student) {
-int att;
-  printf("\nEnter this month attendence:");
-  scanf("%d",&att);
-  student->attendance=att;
-  
-}
-
+//main function 
 int main() {
   struct Student students[100];
   FILE *fptr;
   int choice, num_students = 0;
 
-  do {
-    
+  do {   
 printf("------------------------------------------------"); printf("\n*********************Menu***********************\n");
     printf("------------------------------------------------\n");
     printf("1. Add Student\n");
@@ -164,6 +134,42 @@ fprintf(fptr,"-----------------------\n");
   } while (choice != 6);
   printf("\n");
   return 0;
+}
+
+//Functions defination 
+
+void calculatePERC(struct Student *student) {
+
+  float phy,che,mat,nep,eng,comp,fM, percent;
+  
+  printf("\nEnter full marks : ");
+  scanf("%f",&fM);
+  printf("\nEnter physics marks : ");
+  scanf("%f",&phy);
+  printf("\nEnter chemistry marks : ");
+  scanf("%f",&che);
+  printf("\nEnter math marks : ");
+  scanf("%f",&mat);
+  printf("\nEnter nepali marks : ");
+  scanf("%f",&nep);
+  printf("\nEnter english marks : ");
+  scanf("%f",&eng);
+  printf("\nEnter computer marks : ");
+  scanf("%f",&comp);
+  float total = phy+che+mat+nep+eng+comp;
+  
+  percent = percentage(total,fM);
+  
+  student->percentage = percent;
+  
+}
+
+void inputAttendance(struct Student *student) {
+int att;
+  printf("\nEnter this month attendence:");
+  scanf("%d",&att);
+  student->attendance=att;
+  
 }
 
 float percentage(float total,float fM){
