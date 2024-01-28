@@ -3,6 +3,11 @@
 #include <string.h>
 
 // structure
+struct LoginCredentials {
+    char username[50];
+    char password[50];
+};
+
 struct Student {
   char name[50];
   int age;
@@ -15,9 +20,12 @@ struct Student {
 void calculatePERC(struct Student *student);
 float percentage(float total, float fM);
 void inputAttendance(struct Student *student);
+void executeUserLogin();
 
 // main function
 int main() {
+  executeUserLogin();
+  
   struct Student students[100];
   FILE *fptr;
   int choice, num_students = 0, num_saved_stds = 1;
@@ -158,7 +166,7 @@ int main() {
       break;
     case 7:
       system("clear");
-      printf("\nExiting program\n");
+      printf("\nExiting program......\n");
       break;
     default:
       printf("\n⚠Invalid choice, please try again\n");
@@ -169,6 +177,71 @@ int main() {
 }
 
 // Functions defination
+void executeUserLogin() {
+    int option1;
+
+    while(1) {
+        printf("SIGN UP (1) or LOGIN (2)?\n");
+        scanf("%d", &option1);
+
+        if (option1 == 1) {
+            ///////////////////SIGN UP//////////////////////
+            struct LoginCredentials user;
+            FILE *file = fopen("login.txt", "r");
+
+            if (file == NULL) {
+                file = fopen("login.txt", "w");
+                printf("Enter a username: ");
+                scanf("%s", user.username);
+                printf("Enter a password: ");
+                scanf("%s", user.password);
+
+                fprintf(file, "%s\t%s", user.username, user.password);
+                printf("Sign up successful!\n");
+                fclose(file);
+              break;
+            } else {
+                printf("YOU HAVE ALREADY SIGNED UP!!! \n");
+                fclose(file);
+            }
+            /////////////////opt1 end
+
+        } else if (option1 == 2) {
+            //////////////////////////LOGIN///////////////////////
+            char userInputUsername[50];
+            char userInputPassword[50];
+
+            printf("Enter your username: ");
+            scanf("%s", userInputUsername);
+            printf("Enter your password: ");
+            scanf("%s", userInputPassword);
+
+            FILE *fptr;
+            fptr = fopen("login.txt", "r");
+            if (fptr != NULL) {
+                char username[50];
+                char password[50];
+                fscanf(fptr, "%s\t%s", username, password);
+
+                if (strcmp(userInputUsername, username) == 0 && strcmp(userInputPassword, password) == 0) {
+                    printf("LOGIN SUCCESSFUL!\n");
+                    fclose(fptr);
+                  break;
+                    
+                } else {
+                    printf("Invalid username or password!\n");
+                    fclose(fptr);
+                }
+            } else {
+                printf("Error opening file\n");
+            }
+            ////////////////////////LOGIN END//////////////////////
+        } else {
+            continue; // exit while loop if neither 1 nor 2 is entered
+        }
+    }
+}
+
 
 void calculatePERC(struct Student *student) {
 
